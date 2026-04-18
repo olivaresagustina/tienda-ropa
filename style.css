@@ -1,0 +1,29 @@
+body{
+    font-family:Arial;
+    padding:30px;
+    background:#f2f2f2;
+    }
+    
+    h1{
+    color:#333;
+    }
+    
+    input{
+    padding:10px;
+    margin:5px;
+    width:200px;
+    }
+    
+    button{
+    padding:10px;
+    margin:5px;
+    cursor:pointer;
+    }
+    
+    li{
+    margin:10px 0;
+    background:white;
+    padding:10px;
+    border-radius:8px;
+    list-style:none;
+    }
