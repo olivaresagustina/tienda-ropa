@@ -20,6 +20,29 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { auth } from "./firebase.js";
+
+const loginBox = document.getElementById("loginBox");
+const appBox = document.getElementById("appBox");
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Usuario logueado:", user.email);
+
+    loginBox.style.display = "none";
+    appBox.style.display = "block";
+
+  } else {
+    console.log("No hay sesión");
+
+    loginBox.style.display = "block";
+    appBox.style.display = "none";
+  }
+});
+
+
 // REGISTRAR
 window.registrar = async () => {
   const email = document.getElementById("email").value;

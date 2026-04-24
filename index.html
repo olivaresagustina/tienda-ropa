@@ -7,29 +7,43 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+
+    <!-- 🔐 LOGIN -->
+<div class="formulario" id="loginBox">
+    <h2>Login</h2>
+  
+    <input type="email" id="email" placeholder="Correo">
+    <input type="password" id="password" placeholder="Contraseña">
+  
+    <button onclick="login()">Iniciar sesión</button>
+    <button onclick="registrar()">Registrarse</button>
+  </div>
+  
+  <!-- 🛍️ APP -->
+  <div class="app" id="appBox" style="display:none;">
+    
+    <button onclick="logout()">Cerrar sesión</button>
+  
     <div class="formulario">
-        <h2>Login</h2>
-      
-        <input type="email" id="email" placeholder="Correo">
-        <input type="password" id="password" placeholder="Contraseña">
-      
-        <button onclick="login()">Iniciar sesión</button>
-        <button onclick="registrar()">Registrarse</button>
-        <button onclick="logout()">Cerrar sesión</button>
-      </div>
+      <h2>Agregar Producto</h2>
+  
+      <input type="text" id="prenda" placeholder="Prenda">
+      <input type="text" id="categoria" placeholder="Categoría">
+      <input type="number" id="precio" placeholder="Precio">
+      <input type="number" id="stock" placeholder="Stock">
+  
+      <button onclick="guardarRopa()">Guardar</button>
+    </div>
+  
+    <div class="lista">
+      <h2>Productos Registrados</h2>
+      <ul id="listaRopa"></ul>
+    </div>
+  
+  </div>
 
-<h1>Tienda de Ropa Online</h1>
 
-<input type="text" id="prenda" placeholder="Nombre de la prenda">
-<input type="text" id="categoria" placeholder="Categoría">
-<input type="number" id="precio" placeholder="Precio">
-<input type="number" id="stock" placeholder="Stock">
-
-<button onclick="guardarRopa()">Guardar</button>
-
-<h2>Productos Registrados</h2>
-
-<ul id="listaRopa"></ul>
 
 <script type="module" src="firebase.js"></script>
 <script type="module" src="app.js"></script>
