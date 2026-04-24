@@ -13,47 +13,44 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const ropaRef = collection(db, "ropa");
 
 import { auth } from "./firebase.js";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+// REGISTRAR
 window.registrar = async () => {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("password").value;
-  
-    try {
-      const user = await createUserWithEmailAndPassword(auth, email, pass);
-      alert("Registrado: " + user.user.email);
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
-  };
-  
-  window.login = async () => {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("password").value;
-  
-    try {
-      const user = await signInWithEmailAndPassword(auth, email, pass);
-      alert("Bienvenido: " + user.user.email);
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
-  };
-  
-  window.logout = async () => {
-    try {
-      await signOut(auth);
-      alert("Sesión cerrada");
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
-  };
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, pass);
+    alert("Usuario registrado");
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// LOGIN
+window.login = async () => {
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    alert("Bienvenido");
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// LOGOUT
+window.logout = async () => {
+  await signOut(auth);
+  alert("Sesión cerrada");
+};
 
 
 // CREATE
