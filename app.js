@@ -117,32 +117,40 @@ window.guardarRopa = async () => {
 // READ
 async function mostrarRopa(){
 
-let lista = document.getElementById("listaRopa");
-
-lista.innerHTML += `
-<li>
-
-  <img src="${ropa.imagen || 'https://via.placeholder.com/250'}"
-       style="width:100%; height:300px; object-fit:cover;">
-
-  <div class="producto-nombre">${ropa.prenda}</div>
-  <div>${ropa.categoria}</div>
-  <div class="producto-precio">$${ropa.precio}</div>
-
-  <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
-
-  <button onclick="editarRopa(
-    '${docu.id}',
-    '${ropa.prenda}',
-    '${ropa.categoria}',
-    '${ropa.precio}',
-    '${ropa.stock}'
-  )">Editar</button>
-
-</li>
-`;
-
-};
+    let lista = document.getElementById("listaRopa");
+    
+    lista.innerHTML = "";
+    
+    const datos = await getDocs(ropaRef);
+    
+    datos.forEach((docu)=>{
+    
+    let ropa = docu.data();
+    
+    lista.innerHTML += `
+    <li>
+    
+      <img src="${ropa.imagen || 'https://via.placeholder.com/250'}"
+           style="width:100%; height:300px; object-fit:cover;">
+    
+      <div class="producto-nombre">${ropa.prenda}</div>
+      <div>${ropa.categoria}</div>
+      <div class="producto-precio">$${ropa.precio}</div>
+    
+      <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
+    
+      <button onclick="editarRopa(
+        '${docu.id}',
+        '${ropa.prenda}',
+        '${ropa.categoria}',
+        '${ropa.precio}',
+        '${ropa.stock}'
+      )">Editar</button>
+    
+    </li>
+    `;
+    });
+    }
 
 
 
