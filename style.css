@@ -1,1 +1,84 @@
-body{font-family:Arial,sans-serif;margin:0;color:#111}header{display:flex;justify-content:space-between;padding:20px;border-bottom:1px solid #ddd}.hidden{display:none}section{padding:20px}button{background:#111;color:#fff;border:0;padding:10px;margin:4px;cursor:pointer}input{padding:8px;margin:4px}#products{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card{border:1px solid #ddd;padding:10px}
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* CONTENEDOR PRINCIPAL */
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 50px;
+}
+
+/* FORMULARIO */
+.formulario {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.formulario h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #f1f1f1;
+}
+
+input:focus {
+    outline: none;
+    background: #e0e0ff;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+/* LISTA */
+.lista {
+    width: 400px;
+}
+
+.lista h2 {
+    color: white;
+}
+
+/* TARJETAS */
+li {
+    list-style: none;
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* BOTONES DENTRO DE TARJETA */
+li button {
+    margin-top: 10px;
+    margin-right: 5px;
+    width: auto;
+    padding: 8px 12px;
+}
