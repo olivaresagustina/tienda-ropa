@@ -3,7 +3,7 @@ import { db } from "./firebase.js";
 import {
 collection,
 addDoc,
-getDocs,
+onSnapshot,
 deleteDoc,
 doc,
 updateDoc
@@ -124,33 +124,34 @@ window.guardarRopa = async () => {
     };
 
 
-    async function mostrarRopa() {
+    function mostrarRopa() {
 
         let lista = document.getElementById("listaRopa");
       
-        lista.innerHTML = ""; // 🔥 LIMPIAR LISTA
+        onSnapshot(ropaRef, (querySnapshot) => {
       
-        const querySnapshot = await getDocs(ropaRef);
+          lista.innerHTML = ""; // limpiar
       
-        querySnapshot.forEach((docu) => {
+          querySnapshot.forEach((docu) => {
       
-          const ropa = docu.data();
+            const ropa = docu.data();
       
-          lista.innerHTML += `
-            <li>
-              <img src="${ropa.imagen || 'https://via.placeholder.com/250'}" 
-                   style="width:100%; height:250px; object-fit:cover;">
+            lista.innerHTML += `
+              <li>
+                <img src="${ropa.imagen || 'https://via.placeholder.com/250'}" 
+                     style="width:100%; height:250px; object-fit:cover;">
       
-              <div class="producto-nombre">${ropa.prenda}</div>
-              <div>${ropa.categoria}</div>
-              <div class="producto-precio">$${ropa.precio}</div>
+                <div class="producto-nombre">${ropa.prenda}</div>
+                <div>${ropa.categoria}</div>
+                <div class="producto-precio">$${ropa.precio}</div>
       
-              <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
-            </li>
-          `;
+                <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
+              </li>
+            `;
+          });
+      
         });
       }
-  
   
 
 
