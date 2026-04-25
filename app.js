@@ -183,9 +183,7 @@ alert("Producto actualizado");
 
 mostrarRopa();
 
-<button onclick="editarRopa('${docu.id}','${ropa.prenda}','${ropa.categoria}','${ropa.precio}','${ropa.stock}')">
-Editar
-</button>
+
 
 }
 
