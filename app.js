@@ -75,57 +75,76 @@ window.logout = async () => {
 };
 
 // CREATE
+
+
 window.guardarRopa = async () => {
 
-let prenda = document.getElementById("prenda").value;
-let categoria = document.getElementById("categoria").value;
-let precio = document.getElementById("precio").value;
-let stock = document.getElementById("stock").value;
-
-await addDoc(ropaRef,{
-prenda,
-categoria,
-precio,
-stock
-});
-
-alert("Producto guardado");
-
-mostrarRopa();
-};
+    let prenda = document.getElementById("prenda").value;
+    let categoria = document.getElementById("categoria").value;
+    let precio = document.getElementById("precio").value;
+    let stock = document.getElementById("stock").value;
+    
+    let archivo = document.getElementById("imagen").files[0];
+    let urlImagen = "";
+    
+    if (archivo) {
+      const formData = new FormData();
+      formData.append("file", archivo);
+      formData.append("upload_preset", "ropa_preset");
+    
+      const res = await fetch("https://api.cloudinary.com/v1_1/dbmkorqso/image/upload", {
+        method: "POST",
+        body: formData
+      });
+    
+      const data = await res.json();
+      urlImagen = data.secure_url;
+    }
+    
+    await addDoc(ropaRef,{
+      prenda,
+      categoria,
+      precio,
+      stock,
+      imagen: urlImagen
+    });
+    
+    alert("Producto guardado");
+    
+    mostrarRopa();
+    };
 
 // READ
 async function mostrarRopa(){
 
 let lista = document.getElementById("listaRopa");
-lista.innerHTML = "";
-
-const datos = await getDocs(ropaRef);
-
-datos.forEach((docu)=>{
-
-let ropa = docu.data();
 
 lista.innerHTML += `
 <li>
-${ropa.prenda} - ${ropa.categoria} - $${ropa.precio} - Stock: ${ropa.stock}
 
-<button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
+  <img src="${ropa.imagen || 'https://via.placeholder.com/250'}"
+       style="width:100%; height:300px; object-fit:cover;">
 
-<button onclick="editarRopa(
-'${docu.id}',
-'${ropa.prenda}',
-'${ropa.categoria}',
-'${ropa.precio}',
-'${ropa.stock}'
-)">Editar</button>
+  <div class="producto-nombre">${ropa.prenda}</div>
+  <div>${ropa.categoria}</div>
+  <div class="producto-precio">$${ropa.precio}</div>
+
+  <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
+
+  <button onclick="editarRopa(
+    '${docu.id}',
+    '${ropa.prenda}',
+    '${ropa.categoria}',
+    '${ropa.precio}',
+    '${ropa.stock}'
+  )">Editar</button>
 
 </li>
 `;
 
-});
+};
 
-}
+
 
 // DELETE
 window.eliminarRopa = async(id)=>{
