@@ -94,6 +94,9 @@ stock
 alert("Producto guardado");
 
 
+mostrarRopa();
+};
+
 async function mostrarRopa(){
 
     let lista = document.getElementById("listaRopa");
