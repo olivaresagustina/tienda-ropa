@@ -118,8 +118,7 @@ window.guardarRopa = async () => {
     alert("Producto guardado");
     
 
-    document.querySelector(".formulario").reset();
-
+   
 
     mostrarRopa();
     };
