@@ -34,6 +34,8 @@ onAuthStateChanged(auth, (user) => {
     loginBox.style.display = "none";
     appBox.style.display = "block";
 
+    mostrarRopa();
+
   } else {
     console.log("No hay sesión");
 
@@ -119,28 +121,33 @@ window.guardarRopa = async () => {
     };
 
 
+    async function mostrarRopa() {
 
-async function mostrarRopa(){
-
-    let lista = document.getElementById("listaRopa");
-    
-
-    
-    lista.innerHTML += `
-<li>
-  <img src="${ropa.imagen || 'https://via.placeholder.com/250'}" 
-       style="width:100%; height:250px; object-fit:cover;">
-
-  <div class="producto-nombre">${ropa.prenda}</div>
-  <div>${ropa.categoria}</div>
-  <div class="producto-precio">$${ropa.precio}</div>
-
-  <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
-</li>
-`;
-
+        let lista = document.getElementById("listaRopa");
       
-    };
+        lista.innerHTML = ""; // 🔥 LIMPIAR LISTA
+      
+        const querySnapshot = await getDocs(ropaRef);
+      
+        querySnapshot.forEach((docu) => {
+      
+          const ropa = docu.data();
+      
+          lista.innerHTML += `
+            <li>
+              <img src="${ropa.imagen || 'https://via.placeholder.com/250'}" 
+                   style="width:100%; height:250px; object-fit:cover;">
+      
+              <div class="producto-nombre">${ropa.prenda}</div>
+              <div>${ropa.categoria}</div>
+              <div class="producto-precio">$${ropa.precio}</div>
+      
+              <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
+            </li>
+          `;
+        });
+      }
+  
   
 
 
