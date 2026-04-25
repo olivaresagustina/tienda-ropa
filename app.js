@@ -20,9 +20,7 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 
 const loginBox = document.getElementById("loginBox");
 const appBox = document.getElementById("appBox");
@@ -34,6 +32,8 @@ onAuthStateChanged(auth, (user) => {
     loginBox.style.display = "none";
     appBox.style.display = "block";
 
+    mostrarRopa(); // 🔥 IMPORTANTE
+
   } else {
     console.log("No hay sesión");
 
@@ -41,7 +41,6 @@ onAuthStateChanged(auth, (user) => {
     appBox.style.display = "none";
   }
 });
-
 
 // REGISTRAR
 window.registrar = async () => {
@@ -74,7 +73,6 @@ window.logout = async () => {
   await signOut(auth);
   alert("Sesión cerrada");
 };
-
 
 // CREATE
 window.guardarRopa = async () => {
@@ -162,5 +160,3 @@ alert("Producto actualizado");
 mostrarRopa();
 
 }
-
-mostrarRopa();
