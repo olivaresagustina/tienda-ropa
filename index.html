@@ -21,20 +21,32 @@
   </div>
   
   <!-- 🛍️ APP -->
+ 
   <div class="app" id="appBox" style="display:none;">
-    
-    <button onclick="logout()">Cerrar sesión</button>
+
+    <header class="header">
+      <h1>ZARA</h1>
+      <button onclick="logout()">Cerrar sesión</button>
+    </header>
   
     <div class="formulario">
-      <h2>Agregar Producto</h2>
+      <h2>Agregar producto</h2>
   
-      <input type="text" id="prenda" placeholder="Prenda">
+      <input type="text" id="prenda" placeholder="Nombre">
       <input type="text" id="categoria" placeholder="Categoría">
       <input type="number" id="precio" placeholder="Precio">
       <input type="number" id="stock" placeholder="Stock">
   
       <button onclick="guardarRopa()">Guardar</button>
     </div>
+  
+    <div class="catalogo">
+      <ul id="listaRopa"></ul>
+    </div>
+  
+  </div>
+
+
   
     <div class="lista">
       <h2>Productos Registrados</h2>
