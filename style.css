@@ -7,7 +7,15 @@ body {
 }
 
 /* HEADER */
-h1, h2 {
+.header h1 {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+}
+
+
+h2 {
     font-weight: 500;
     letter-spacing: 1px;
 }
@@ -102,4 +110,20 @@ li button {
 li button:hover {
     background: black;
     color: white;
+}
+/* HEADER ESTILO ZARA */
+.header {
+    width: 100%;
+    text-align: center;
+    padding: 25px 0;
+    border-bottom: 1px solid #eee;
+    background: white;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: black;
+    margin: 0;
 }
