@@ -93,33 +93,30 @@ stock
 
 alert("Producto guardado");
 
-mostrarRopa();
-};
 
-// READ
 async function mostrarRopa(){
 
-let lista = document.getElementById("listaRopa");
-lista.innerHTML = "";
+    let lista = document.getElementById("listaRopa");
+    lista.innerHTML = "";
+  
+    const datos = await getDocs(ropaRef);
+  
+    datos.forEach((docu)=>{
+  
+      let ropa = docu.data();
+  
+      lista.innerHTML += `
+      <li>
+        <div class="producto-nombre">${ropa.prenda}</div>
+        <div>${ropa.categoria}</div>
+        <div class="producto-precio">$${ropa.precio}</div>
+  
+        <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
+      </li>
+      `;
+    });
+  }
 
-const datos = await getDocs(ropaRef);
-
-lista.innerHTML += `
-<li>
-  <div class="producto-nombre">${ropa.prenda}</div>
-  <div>${ropa.categoria}</div>
-  <div class="producto-precio">$${ropa.precio}</div>
-
-  <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
-</li>
-`;
-
-
-
-
-});
-
-}
 
 // DELETE
 window.eliminarRopa = async(id)=>{
