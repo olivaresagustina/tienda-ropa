@@ -1,194 +1,54 @@
-import { db } from "./firebase.js";
+import {auth,db} from './firebase.js';
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {collection,addDoc,onSnapshot,doc,setDoc,getDoc} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-import {
-collection,
-addDoc,
-onSnapshot,
-deleteDoc,
-doc,
-updateDoc
+const adminEmail='admin@gmail.com';
+let cart=[];
+
+window.registerUser=async()=>{
+ const email=emailEl('email').value,password=emailEl('password').value;
+ const cred=await createUserWithEmailAndPassword(auth,email,password);
+ await setDoc(doc(db,'usuarios',cred.user.uid),{email,rol:email===adminEmail?'admin':'cliente'});
+ alert('Registrado');
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+window.loginUser=async()=>{
+ const email=emailEl('email').value,password=emailEl('password').value;
+ await signInWithEmailAndPassword(auth,email,password);
+}
+function emailEl(id){return document.getElementById(id)}
 
-const ropaRef = collection(db, "ropa");
-
-import { auth } from "./firebase.js";
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-const loginBox = document.getElementById("loginBox");
-const appBox = document.getElementById("appBox");
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("Usuario logueado:", user.email);
-
-    loginBox.style.display = "none";
-    appBox.style.display = "block";
-
-    mostrarRopa();
-
-  } else {
-    console.log("No hay sesión");
-
-    loginBox.style.display = "block";
-    appBox.style.display = "none";
-  }
+onAuthStateChanged(auth, async(user)=>{
+ const ub=document.getElementById('userBox');
+ if(user){
+   ub.innerHTML=`${user.email} <button onclick="logoutUser()">Salir</button>`;
+   const snap=await getDoc(doc(db,'usuarios',user.uid));
+   const rol=snap.exists()?snap.data().rol:'cliente';
+   document.getElementById('adminPanel').classList.toggle('hidden',rol!=='admin');
+ } else {
+   ub.innerHTML='';
+   document.getElementById('adminPanel').classList.add('hidden');
+ }
 });
 
+window.logoutUser=()=>signOut(auth);
 
-// REGISTRAR
-window.registrar = async () => {
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-
-  try {
-    await createUserWithEmailAndPassword(auth, email, pass);
-    alert("Usuario registrado");
-  } catch (error) {
-    alert(error.message);
-  }
-};
-
-// LOGIN
-window.login = async () => {
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    alert("Bienvenido");
-  } catch (error) {
-    alert(error.message);
-  }
-};
-
-// LOGOUT
-window.logout = async () => {
-  await signOut(auth);
-  alert("Sesión cerrada");
-};
-
-
-// CREATE
-
-
-window.guardarRopa = async () => {
-
-    let prenda = document.getElementById("prenda").value;
-    let categoria = document.getElementById("categoria").value;
-    let precio = document.getElementById("precio").value;
-    let stock = document.getElementById("stock").value;
-    
-    let archivo = document.getElementById("imagen").files[0];
-    
-    let urlImagen = "";
-    
-    if (archivo) {
-    
-      const formData = new FormData();
-      formData.append("file", archivo);
-      formData.append("upload_preset", "ropa_preset"); // 👈 tu preset
-    
-      const res = await fetch("https://api.cloudinary.com/v1_1/dbmkorqso/image/upload", {
-        method: "POST",
-        body: formData
-      });
-    
-      const data = await res.json();
-      urlImagen = data.secure_url;
-    }
-    
-    await addDoc(ropaRef,{
-      prenda,
-      categoria,
-      precio,
-      stock,
-      imagen: urlImagen
-    });
-    
-    alert("Producto guardado");
-    
-
-   
-
-    mostrarRopa();
-    };
-
-
-    function mostrarRopa() {
-
-        let lista = document.getElementById("listaRopa");
-      
-        onSnapshot(ropaRef, (querySnapshot) => {
-      
-          lista.innerHTML = ""; // limpiar
-      
-          querySnapshot.forEach((docu) => {
-      
-            const ropa = docu.data();
-      
-            lista.innerHTML += `
-              <li>
-                <img src="${ropa.imagen || 'https://via.placeholder.com/250'}" 
-                     style="width:100%; height:250px; object-fit:cover;">
-      
-                <div class="producto-nombre">${ropa.prenda}</div>
-                <div>${ropa.categoria}</div>
-                <div class="producto-precio">$${ropa.precio}</div>
-      
-                <button onclick="eliminarRopa('${docu.id}')">Eliminar</button>
-              </li>
-            `;
-          });
-      
-        });
-      }
-  
-
-
-// DELETE
-window.eliminarRopa = async(id)=>{
-
-await deleteDoc(doc(db,"ropa",id));
-
-alert("Producto eliminado");
-
-mostrarRopa();
-
+window.addProduct=async()=>{
+ await addDoc(collection(db,'ropa'),{nombre:emailEl('pn').value,precio:Number(emailEl('pp').value)});
 }
 
-// UPDATE
-window.editarRopa = async(id,prenda,categoria,precio,stock)=>{
-
-let nuevaPrenda = prompt("Prenda",prenda);
-let nuevaCategoria = prompt("Categoría",categoria);
-let nuevoPrecio = prompt("Precio",precio);
-let nuevoStock = prompt("Stock",stock);
-
-await updateDoc(doc(db,"ropa",id),{
-
-prenda:nuevaPrenda,
-categoria:nuevaCategoria,
-precio:nuevoPrecio,
-stock:nuevoStock
-
+onSnapshot(collection(db,'ropa'),(qs)=>{
+ const box=document.getElementById('products'); box.innerHTML='';
+ qs.forEach(d=>{
+   const p=d.data();
+   box.innerHTML+=`<div class='card'><b>${p.nombre}</b><p>$${p.precio}</p><button onclick='addCart(${JSON.stringify(p).replace(/"/g,'&quot;')})'>Comprar</button></div>`;
+ });
 });
 
-alert("Producto actualizado");
-
-mostrarRopa();
-
-
-
+window.addCart=(p)=>{cart.push(p);renderCart();}
+function renderCart(){document.getElementById('cart').innerHTML=cart.map(x=>x.nombre+' $'+x.precio).join('<br>')}
+window.checkout=async()=>{
+ const user=auth.currentUser;
+ if(!user){alert('Inicia sesión');return;}
+ await addDoc(collection(db,'pedidos'),{usuario:user.email,items:cart,fecha:new Date().toISOString()});
+ cart=[];renderCart();alert('Pedido guardado');
 }
-
-mostrarRopa();

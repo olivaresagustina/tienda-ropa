@@ -1,66 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tienda de Ropa Online</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-
-    <!-- 🔐 LOGIN -->
-<div class="formulario" id="loginBox">
-    <h2>Login</h2>
-  
-    <input type="email" id="email" placeholder="Correo">
-    <input type="password" id="password" placeholder="Contraseña">
-  
-    <button onclick="login()">Iniciar sesión</button>
-    <button onclick="registrar()">Registrarse</button>
-  </div>
-  
-  <!-- 🛍️ APP -->
- 
-  <div class="app" id="appBox" style="display:none;">
-
-    <header class="header">
-      <h1>Huasteca Studio</h1>
-      <button onclick="logout()">Cerrar sesión</button>
-    </header>
-  
-    <div class="formulario">
-      <h2>Agregar producto</h2>
-  
-      <input type="text" id="prenda" placeholder="Nombre">
-      <input type="text" id="categoria" placeholder="Categoría">
-      <input type="number" id="precio" placeholder="Precio">
-      <input type="number" id="stock" placeholder="Stock">
-  
-
-      <input type="file" id="imagen">
-
-
-
-
-      <button onclick="guardarRopa()">Guardar</button>
-    </div>
-  
-    <div class="catalogo">
-      <ul id="listaRopa"></ul>
-    </div>
-  
-  </div>
-
-
-  
-    
-  </div>
-
-
-
-<script type="module" src="firebase.js"></script>
-<script type="module" src="app.js"></script>
-
-</body>
-</html>
+<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Huasteca Studio V2</title><link rel='stylesheet' href='style.css'></head><body>
+<header><h1>Huasteca Studio</h1><div id='userBox'></div></header>
+<section id='authBox'><input id='email' placeholder='Correo'><input id='password' type='password' placeholder='Contraseña'><button onclick='registerUser()'>Registrarse</button><button onclick='loginUser()'>Entrar</button></section>
+<section id='adminPanel' class='hidden'><h2>Admin</h2><input id='pn' placeholder='Producto'><input id='pp' placeholder='Precio'><button onclick='addProduct()'>Agregar</button></section>
+<section><h2>Catálogo</h2><div id='products'></div></section>
+<section><h2>Carrito</h2><div id='cart'></div><button onclick='checkout()'>Finalizar compra</button></section>
+<script type='module' src='app.js'></script></body></html>
