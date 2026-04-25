@@ -117,6 +117,14 @@ window.guardarRopa = async () => {
     
     alert("Producto guardado");
     
+
+    document.getElementById("prenda").value = "";
+document.getElementById("categoria").value = "";
+document.getElementById("precio").value = "";
+document.getElementById("stock").value = "";
+document.getElementById("imagen").value = "";
+
+
     mostrarRopa();
     };
 
